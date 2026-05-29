@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel – EarnZone</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body class="admin-body">
+
+  <!-- ===== ADMIN LOGIN SCREEN ===== -->
+  <div class="admin-login-overlay" id="adminLoginOverlay">
+    <div class="login-card">
+      <div class="login-logo"><i class="fa fa-shield-halved"></i></div>
+      <h2>Admin Login</h2>
+      <p>Enter your credentials to access the admin panel.</p>
+      <div class="login-error" id="loginError" style="display:none;">Invalid username or password.</div>
+      <div class="form-group">
+        <label>Username</label>
+        <div class="input-icon-wrap">
+          <i class="fa fa-user"></i>
+          <input type="text" id="loginUser" placeholder="admin" autocomplete="username" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="input-icon-wrap">
+          <i class="fa fa-lock"></i>
+          <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+      </div>
+      <button class="btn-primary full-width" onclick="attemptLogin()">
+        <i class="fa fa-arrow-right-to-bracket"></i> Login
+      </button>
+      <a href="index.html" class="back-link"><i class="fa fa-arrow-left"></i> Back to Website</a>
+    </div>
+  </div>
+
+  <!-- ===== ADMIN PANEL ===== -->
+  <div class="admin-panel" id="adminPanel" style="display:none;">
+
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="admin-brand">
+        <i class="fa fa-bolt"></i>
+        <span>EarnZone Admin</span>
+      </div>
+      <nav class="admin-nav">
+        <a href="#" class="admin-nav-link active" data-tab="dashboard" onclick="switchTab('dashboard', this)">
+          <i class="fa fa-chart-pie"></i> Dashboard
+        </a>
+        <a href="#" class="admin-nav-link" data-tab="add-app" onclick="switchTab('add-app', this)">
+          <i class="fa fa-plus-circle"></i> Add App
+        </a>
+        <a href="#" class="admin-nav-link" data-tab="manage" onclick="switchTab('manage', this)">
+          <i class="fa fa-layer-group"></i> Manage Apps
+        </a>
+        <a href="#" class="admin-nav-link" data-tab="settings" onclick="switchTab('settings', this)">
+          <i class="fa fa-gear"></i> Site Settings
+        </a>
+      </nav>
+      <div class="admin-sidebar-footer">
+        <a href="index.html" class="admin-nav-link"><i class="fa fa-eye"></i> View Site</a>
+        <a href="#" class="admin-nav-link logout-link" onclick="adminLogout()"><i class="fa fa-right-from-bracket"></i> Logout</a>
+      </div>
+    </aside>
+
+    <!-- Admin Main -->
+    <main class="admin-main" id="adminMain">
+      <!-- Topbar -->
+      <div class="admin-topbar">
+        <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()"><i class="fa fa-bars"></i></button>
+        <span class="admin-topbar-title" id="adminTopbarTitle">Dashboard</span>
+        <div class="admin-user-badge"><i class="fa fa-user-shield"></i> Admin</div>
+      </div>
+
+      <!-- Toast -->
+      <div class="admin-toast" id="adminToast"></div>
+
+      <!-- ===== TAB: DASHBOARD ===== -->
+      <div class="admin-tab active" id="tab-dashboard">
+        <div class="admin-page-header">
+          <h1>Dashboard</h1>
+          <p>Overview of your earning app listing site.</p>
+        </div>
+        <div class="dash-stats">
+          <div class="dash-stat-card">
+            <i class="fa fa-layer-group"></i>
+            <div><span id="dashTotalApps">0</span><label>Total Apps</label></div>
+          </div>
+          <div class="dash-stat-card">
+            <i class="fa fa-tags"></i>
+            <div><span id="dashCategories">0</span><label>Categories</label></div>
+          </div>
+          <div class="dash-stat-card">
+            <i class="fa fa-coins"></i>
+            <div><span id="dashMaxReward">—</span><label>Max Reward</label></div>
+          </div>
+          <div class="dash-stat-card">
+            <i class="fa fa-globe"></i>
+            <div><span id="dashSiteName">EarnZone</span><label>Site Name</label></div>
+          </div>
+        </div>
+        <div class="admin-section-card">
+          <h3><i class="fa fa-clock-rotate-left"></i> Recent Apps</h3>
+          <div id="recentAppsList" class="recent-list"></div>
+        </div>
+        <div class="admin-section-card danger-card">
+          <h3><i class="fa fa-triangle-exclamation"></i> Danger Zone</h3>
+          <p>This will permanently delete ALL apps and reset site settings.</p>
+          <button class="btn-danger" onclick="clearAllData()"><i class="fa fa-trash"></i> Clear All Data</button>
+        </div>
+      </div>
+
+      <!-- ===== TAB: ADD APP ===== -->
+      <div class="admin-tab" id="tab-add-app">
+        <div class="admin-page-header">
+          <h1 id="addAppTitle">Add New App</h1>
+          <p>Fill in the details below to add a new earning app offer.</p>
+        </div>
+        <div class="admin-form-card">
+          <input type="hidden" id="editingId" value="" />
+          <div class="form-grid">
+            <div class="form-group">
+              <label><i class="fa fa-tag"></i> App Name <span class="required">*</span></label>
+              <input type="text" id="appName" placeholder="e.g. CashKaro, mCent" />
+            </div>
+            <div class="form-group">
+              <label><i class="fa fa-image"></i> App Logo URL <span class="required">*</span></label>
+              <input type="url" id="appLogo" placeholder="https://example.com/logo.png" />
+            </div>
+            <div class="form-group">
+              <label><i class="fa fa-folder-open"></i> Category <span class="required">*</span></label>
+              <input type="text" id="appCategory" placeholder="e.g. Cashback, Gaming, Shopping" />
+            </div>
+            <div class="form-group">
+              <label><i class="fa fa-coins"></i> Reward Amount <span class="required">*</span></label>
+              <input type="text" id="appReward" placeholder="e.g. ₹50, $2, 500 points" />
+            </div>
+            <div class="form-group full-col">
+              <label><i class="fa fa-align-left"></i> Description <span class="required">*</span></label>
+              <textarea id="appDesc" rows="3" placeholder="Brief description of the app and offer..."></textarea>
+            </div>
+            <div class="form-group full-col">
+              <label><i class="fa fa-list-ol"></i> Steps to Complete Offer <span class="required">*</span></label>
+              <textarea id="appSteps" rows="4" placeholder="1. Download the app&#10;2. Register with your phone number&#10;3. Complete first transaction"></textarea>
+              <span class="form-hint">Enter each step on a new line.</span>
+            </div>
+            <div class="form-group">
+              <label><i class="fa fa-link"></i> Affiliate / Download Link <span class="required">*</span></label>
+              <input type="url" id="appLink" placeholder="https://affiliate.link/app" />
+            </div>
+            <div class="form-group">
+              <label><i class="fa fa-hand-pointer"></i> Button Text</label>
+              <input type="text" id="appBtnText" placeholder="e.g. Download & Earn" />
+            </div>
+            <div class="form-group full-col">
+              <label><i class="fa fa-file-contract"></i> Terms / Note</label>
+              <input type="text" id="appTerms" placeholder="e.g. Valid for new users only. Reward credited within 7 days." />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-secondary" onclick="resetAppForm()"><i class="fa fa-rotate-left"></i> Reset</button>
+            <button class="btn-primary" onclick="saveApp()"><i class="fa fa-floppy-disk"></i> <span id="saveAppBtnText">Save App</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: MANAGE APPS ===== -->
+      <div class="admin-tab" id="tab-manage">
+        <div class="admin-page-header">
+          <h1>Manage Apps</h1>
+          <p>Edit or delete existing app offers.</p>
+        </div>
+        <div class="admin-section-card">
+          <div class="manage-toolbar">
+            <input type="text" id="manageSearch" class="manage-search" placeholder="🔍 Search apps..." oninput="renderManageList()" />
+            <span id="manageCount" class="manage-count">0 apps</span>
+          </div>
+          <div id="manageList" class="manage-list"></div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: SITE SETTINGS ===== -->
+      <div class="admin-tab" id="tab-settings">
+        <div class="admin-page-header">
+          <h1>Site Settings</h1>
+          <p>Update your website's name and logo.</p>
+        </div>
+        <div class="admin-form-card">
+          <div class="form-group">
+            <label><i class="fa fa-heading"></i> Website Name</label>
+            <input type="text" id="settingsSiteName" placeholder="e.g. EarnZone" />
+          </div>
+          <div class="form-group">
+            <label><i class="fa fa-image"></i> Logo Image URL</label>
+            <input type="url" id="settingsLogoUrl" placeholder="https://example.com/your-logo.png" />
+            <span class="form-hint">Leave blank to hide logo. Recommended size: 40×40px.</span>
+          </div>
+          <div class="logo-preview-wrap" id="logoPreviewWrap">
+            <img src="" alt="Logo Preview" id="settingsLogoPreview" style="display:none;" />
+          </div>
+          <div class="form-actions">
+            <button class="btn-primary" onclick="saveSettings()"><i class="fa fa-floppy-disk"></i> Save Settings</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

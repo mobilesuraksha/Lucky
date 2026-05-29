@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EarnZone – Download Apps & Earn Rewards</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+<body>
+
+  <!-- ===== STICKY HEADER ===== -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner container">
+      <div class="brand" id="brandArea">
+        <img src="" alt="Logo" class="site-logo" id="headerLogo" />
+        <span class="site-name" id="headerName">EarnZone</span>
+      </div>
+      <nav class="main-nav">
+        <a href="#offers">Offers</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="admin.html" class="nav-admin-btn"><i class="fa fa-lock"></i> Admin</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#offers" onclick="closeMobileMenu()">Offers</a>
+      <a href="#how-it-works" onclick="closeMobileMenu()">How It Works</a>
+      <a href="admin.html">Admin Panel</a>
+    </div>
+  </header>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="container hero-content">
+      <div class="hero-badge"><i class="fa fa-bolt"></i> Live Offers Available</div>
+      <h1 class="hero-title">Download Apps &<br /><span class="gradient-text">Earn Rewards</span></h1>
+      <p class="hero-sub">Find trusted earning apps, complete offers, and get rewards.</p>
+      <div class="hero-stats" id="heroStats">
+        <div class="stat"><span class="stat-num" id="statApps">0</span><span class="stat-label">Apps Listed</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Free to Join</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">24/7</span><span class="stat-label">Offers Active</span></div>
+      </div>
+      <a href="#offers" class="hero-cta">Browse Offers <i class="fa fa-arrow-down"></i></a>
+    </div>
+    <div class="hero-scroll-indicator">
+      <span></span>
+    </div>
+  </section>
+
+  <!-- ===== APP OFFERS SECTION ===== -->
+  <section class="offers-section" id="offers">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Live Offers</span>
+        <h2 class="section-title">Available <span class="gradient-text">Earning Apps</span></h2>
+        <p class="section-sub">Complete the steps below each app offer and claim your reward.</p>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-filter="all">All Apps</button>
+      </div>
+
+      <!-- App cards grid -->
+      <div class="apps-grid" id="appsGrid">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state" id="emptyState" style="display:none;">
+        <i class="fa fa-layer-group"></i>
+        <h3>No Offers Yet</h3>
+        <p>The admin hasn't added any app offers yet. Check back soon!</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="how-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Simple Steps</span>
+        <h2 class="section-title">How It <span class="gradient-text">Works</span></h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-icon"><i class="fa fa-magnifying-glass"></i></div>
+          <div class="step-num">01</div>
+          <h3>Browse Offers</h3>
+          <p>Explore all available app earning offers listed on this page.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon"><i class="fa fa-download"></i></div>
+          <div class="step-num">02</div>
+          <h3>Download App</h3>
+          <p>Click the download button and install the app using our affiliate link.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon"><i class="fa fa-list-check"></i></div>
+          <div class="step-num">03</div>
+          <h3>Complete Steps</h3>
+          <p>Follow the offer steps carefully to qualify for the reward.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-icon"><i class="fa fa-coins"></i></div>
+          <div class="step-num">04</div>
+          <h3>Earn Rewards</h3>
+          <p>Once verified, your reward is credited as per the affiliate partner's policy.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DISCLAIMER ===== -->
+  <section class="disclaimer-section">
+    <div class="container">
+      <div class="disclaimer-box">
+        <i class="fa fa-triangle-exclamation disclaimer-icon"></i>
+        <div>
+          <h4>Disclaimer</h4>
+          <p>Earnings depend on successful offer completion and affiliate partner approval. We do not guarantee fixed income.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="" alt="Logo" class="footer-logo" id="footerLogo" />
+        <span id="footerName">EarnZone</span>
+      </div>
+      <p class="footer-copy">© <span id="footerYear"></span> <span id="footerSiteName">EarnZone</span>. All rights reserved. This is an affiliate listing site.</p>
+      <a href="admin.html" class="footer-admin-link"><i class="fa fa-lock"></i> Admin Panel</a>
+    </div>
+  </footer>
+
+  <!-- ===== APP DETAIL MODAL ===== -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box" id="modalBox">
+      <button class="modal-close" id="modalClose"><i class="fa fa-xmark"></i></button>
+      <div class="modal-content" id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
